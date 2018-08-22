@@ -3,7 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 
-import db from './middleware/db-middleware';
+import db from './middleware/dbMiddleware';
 import routes from './routes';
 
 const PORT = process.env.PORT || 3001;

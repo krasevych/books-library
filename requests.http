@@ -1,0 +1,39 @@
+GET http://localhost:3001/api/users
+?limit=10
+&offset=0
+
+###
+
+POST http://localhost:3001/api/books
+content-type: application/json
+
+{
+   "authorId": "3",
+    "title":"FlyHigh 5", 
+    "description":"English book"
+}
+
+
+###
+
+PUT http://localhost:3001/api/books
+?authorId=1
+&title=FlyHigh
+content-type: application/json
+
+{
+    "description":"English book - updated"
+}
+
+
+###
+
+DELETE http://localhost:3001/api/books
+?authorId=3
+&title=FlyHigh 5
+
+
+###
+GET http://localhost:3001/api/books
+?authorId=3
+&title=FlyHigh 5
