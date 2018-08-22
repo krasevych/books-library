@@ -1,0 +1,13 @@
+# dependencies
+node_modules
+
+# logs
+*.log
+
+# Idea
+.vscode
+vsconf.code-workspace
+
+# tests
+./**/*.test.*
+
