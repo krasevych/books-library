@@ -10,12 +10,11 @@ const getUsersWithReservation = table =>
 export const getAll = async (req, res, next) => {
   const { offset, limit, hasReservation } = req.query;
 
+  const usersSelect = knex('users').select('id', 'fullname');
+
   const users = !hasReservation
-    ? await knex('users')
-        .select('id', 'fullname')
-        .limit(limit)
-        .offset(offset)
-    : await getUsersWithReservation(knex('users'));
+    ? await usersSelect.limit(limit).offset(offset)
+    : await getUsersWithReservation(usersSelect);
 
   res.json({ users });
 };

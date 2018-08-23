@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 import _ from 'lodash';
 import knex from '../knex';
 
@@ -8,27 +9,26 @@ const getSelect = (table, prefix, fields) => {
 const getReservedBookData = async params => {
   const searchParams = _.pick(params, ['id']);
 
-  const { book_id, reader } = await knex('reserved_books')
+  const { id, book_id, reader } = await knex('reserved_books')
     .where(searchParams)
     .first('id', 'reader', 'book_id');
 
   const book = await knex('books')
-    .first({ id: book_id })
-    .select('title', 'description');
+    .where({ id: book_id })
+    .first('id', 'title', 'description');
 
-  return { reader, book };
+  return { id, reader, book };
 };
 
 export const create = async (req, res, next) => {
   const { book_id, reader } = req.body;
+  const id = uuid();
 
-  const id = await knex('reserved_books')
-    .insert({
-      reader,
-      book_id
-    })
-    .returning('id')
-    .then(a => a[0]);
+  await knex('reserved_books').insert({
+    id,
+    reader,
+    book_id
+  });
 
   const book = await getReservedBookData({ id });
 
@@ -55,7 +55,7 @@ export const get = async (req, res, next) => {
 
 export const remove = async (req, res, next) => {
   const { id } = req.params;
-  const book = await getReservedBookData(req.params);
+  const reservation = await getReservedBookData(req.params);
 
   await knex('reserved_books')
     .where({
@@ -63,5 +63,5 @@ export const remove = async (req, res, next) => {
     })
     .del();
 
-  res.json({ book });
+  res.json({ reservation });
 };

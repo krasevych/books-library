@@ -2,7 +2,11 @@ exports.up = function(knex, Promise) {
   return knex.schema
 
     .createTable('users', table => {
-      table.increments();
+      table
+        .uuid('id')
+        .unique()
+        .primary()
+        .notNullable();
       table
         .string('email')
         .unique()
@@ -13,11 +17,15 @@ exports.up = function(knex, Promise) {
     })
 
     .createTable('books', table => {
-      table.increments();
+      table
+        .uuid('id')
+        .unique()
+        .primary()
+        .notNullable();
       table.string('title').notNullable();
       table.string('description').notNullable();
       table
-        .integer('author')
+        .uuid('author')
         .notNullable()
         .references('users.id')
         .onDelete('CASCADE');
@@ -25,13 +33,17 @@ exports.up = function(knex, Promise) {
     })
 
     .createTable('reserved_books', table => {
-      table.increments();
+      table
+        .uuid('id')
+        .unique()
+        .primary()
+        .notNullable();
       table
         .string('reader')
         .unique()
         .notNullable();
       table
-        .integer('book_id')
+        .uuid('book_id')
         .notNullable()
         .references('books.id')
         .onDelete('CASCADE');

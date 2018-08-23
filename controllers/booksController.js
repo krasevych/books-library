@@ -1,3 +1,4 @@
+import uuid from 'uuid';
 import _ from 'lodash';
 import knex from '../knex';
 
@@ -20,15 +21,14 @@ export const getReservedBooks = table =>
 
 export const create = async (req, res, next) => {
   const { title, author, description } = req.body;
+  const id = uuid();
 
-  const id = await knex('books')
-    .insert({
-      title,
-      author,
-      description
-    })
-    .returning('id')
-    .then(returningArr => returningArr[0]);
+  await knex('books').insert({
+    id,
+    title,
+    author,
+    description
+  });
 
   const book = await getBookData({ id });
 

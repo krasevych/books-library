@@ -3,20 +3,25 @@ GET http://localhost:3001/api/users
 &offset=0
 &hasReservation=true
 
+
 ###
 
 POST http://localhost:3001/api/books
 content-type: application/json
 
 {
-   "author": 2,
-    "title":"FlyHigh 1.3", 
-    "description":"English book"
+   "author": "345ae4d0-f2c3-4342-91a2-5b45cb8db57f",
+    "title":"FlyHigh 11111", 
+    "description":"English book 2"
 }
 
 ###
 
-PUT http://localhost:3001/api/books/2
+GET http://localhost:3001/api/books?hasReservation=true
+
+###
+
+PUT http://localhost:3001/api/books/5b112b38-0a7a-4abf-8c13-543689c68fcb
 content-type: application/json
 
 {
@@ -25,13 +30,7 @@ content-type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/books/1
-
-###
-
-GET http://localhost:3001/api/books
-
-
+DELETE http://localhost:3001/api/books/5b112b38-0a7a-4abf-8c13-543689c68fcb
 
 ###
 
@@ -39,8 +38,8 @@ POST http://localhost:3001/api/reserved-books
 content-type: application/json
 
 {
-    "book_id":"3", 
-    "reader":"Zorg3.1"
+    "book_id":"547fe313-aad4-44f3-ad9c-84abd116ab4f", 
+    "reader":"Zorg  11"
 }
 
 ###
@@ -49,5 +48,5 @@ GET http://localhost:3001/api/reserved-books
 
 ###
 
-DELETE http://localhost:3001/api/reserved-books/7
+DELETE http://localhost:3001/api/reserved-books/de1279d3-17bc-47af-9c22-487881e0f106
 
