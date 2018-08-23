@@ -1,6 +1,6 @@
 import knex from '../knex';
 
-export const get = async (req, res, next) => {
+export const getAll = async (req, res, next) => {
   const { offset, limit } = req.query;
 
   const users = await knex('users')

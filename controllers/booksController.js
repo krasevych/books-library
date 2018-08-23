@@ -1,52 +1,62 @@
+import _ from 'lodash';
 import knex from '../knex';
 
 const bookProps = ['id', 'title', 'description'];
 
-const getBookData = async ({ title, authorId }) =>
-  await knex('books')
-    .where({ title, author: authorId })
+const getBookData = params => {
+  const searchParams = _.pick(params, ['id', 'author']);
+
+  return knex('books')
+    .where(searchParams)
     .select(...bookProps);
+};
+
+export const create = async (req, res, next) => {
+  const { title, author, description } = req.body;
+
+  const id = await knex('books')
+    .insert({
+      title,
+      author,
+      description
+    })
+    .returning('id')
+    .then(returningArr => returningArr[0]);
+
+  const book = await getBookData({ id });
+
+  res.json(book);
+};
+
+export const getAll = async (req, res, next) => {
+  const book = await getBookData(req.query);
+  res.json(book);
+};
 
 export const get = async (req, res, next) => {
-  const { title, authorId } = req.query;
-  const book = await getBookData({ title, authorId });
-
+  const book = await getBookData(req.params);
   res.json(book);
 };
 
-export const post = async (req, res, next) => {
-  const { authorId, title, description } = req.body;
-
-  await knex('books').insert({
-    title,
-    description,
-    author: authorId
-  });
-
-  const book = await getBookData({ title, authorId });
-
-  res.json(book);
-};
-
-export const put = async (req, res, next) => {
-  const { authorId, title } = req.query;
+export const update = async (req, res, next) => {
+  const { id } = req.params;
   const { description } = req.body;
 
   await knex('books')
-    .where({ title, author: authorId })
+    .where({ id })
     .update({ description });
 
-  const book = await getBookData({ title, authorId });
+  const book = await getBookData(req.params);
 
   res.json(book);
 };
 
 export const remove = async (req, res, next) => {
-  const { authorId, title } = req.query;
-  const book = await getBookData({ title, authorId });
+  const { id } = req.query;
+  const book = await getBookData(req.query);
 
   await knex('books')
-    .where({ title, author: authorId })
+    .where({ id })
     .del();
 
   res.json(book);

@@ -2,12 +2,16 @@ import express from 'express';
 import controllers from '../controllers';
 
 const router = express.Router();
-const { get, post, remove } = controllers.reservedBooks;
+const { getAll, get, create, remove } = controllers.reservedBooks;
 
 router
   .route('/')
+  .get(getAll)
+  .post(create);
+
+router
+  .route('/:id')
   .get(get)
-  .post(post)
   .delete(remove);
 
 export default router;

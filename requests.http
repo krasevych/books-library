@@ -8,16 +8,14 @@ POST http://localhost:3001/api/books
 content-type: application/json
 
 {
-   "authorId": 3,
-    "title":"FlyHigh 5", 
+   "author": 1,
+    "title":"FlyHigh 1.1", 
     "description":"English book"
 }
 
 ###
 
-PUT http://localhost:3001/api/books
-?authorId=1
-&title=FlyHigh 1
+PUT http://localhost:3001/api/books/1
 content-type: application/json
 
 {
@@ -26,15 +24,13 @@ content-type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/books
-?authorId=3
-&title=FlyHigh 5
+DELETE http://localhost:3001/api/books/3
 
 ###
 
 GET http://localhost:3001/api/books
-?authorId=3
-&title=FlyHigh 5
+?author=1
+
 
 ###
 
@@ -42,19 +38,15 @@ POST http://localhost:3001/api/reserved-books
 content-type: application/json
 
 {
-   "authorId": "1",
-    "bookId":"1", 
-    "reader":"Zorg"
+    "book_id":"2", 
+    "reader":"Zorg5"
 }
 
 ###
 
 GET http://localhost:3001/api/reserved-books
-?authorId=1
-&bookId=1
 
 ###
 
-DELETE http://localhost:3001/api/reserved-books
-?bookId=1
-&reader=Zorg
+DELETE http://localhost:3001/api/reserved-books/6
+

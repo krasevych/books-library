@@ -18,7 +18,6 @@ exports.up = function(knex, Promise) {
       table.string('description').notNullable();
       table
         .integer('author')
-        .unique()
         .notNullable()
         .references('users.id')
         .onDelete('CASCADE');
