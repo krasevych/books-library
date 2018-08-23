@@ -11,6 +11,13 @@ const getBookData = params => {
     .select(...bookProps);
 };
 
+export const getReservedBooks = table =>
+  table.whereExists(function() {
+    this.select('*')
+      .from('reserved_books')
+      .whereRaw('books.id = reserved_books.book_id');
+  });
+
 export const create = async (req, res, next) => {
   const { title, author, description } = req.body;
 
@@ -29,7 +36,12 @@ export const create = async (req, res, next) => {
 };
 
 export const getAll = async (req, res, next) => {
-  const book = await getBookData(req.query);
+  const { hasReservation } = req.query;
+
+  const book = !hasReservation
+    ? await getBookData(req.query)
+    : await getReservedBooks(knex('books'));
+
   res.json(book);
 };
 
@@ -52,8 +64,8 @@ export const update = async (req, res, next) => {
 };
 
 export const remove = async (req, res, next) => {
-  const { id } = req.query;
-  const book = await getBookData(req.query);
+  const { id } = req.params;
+  const book = await getBookData(req.params);
 
   await knex('books')
     .where({ id })
