@@ -54,13 +54,11 @@ export const get = async (req, res, next) => {
 };
 
 export const remove = async (req, res, next) => {
-  const { id } = req.params;
   const reservation = await getReservedBookData(req.params);
+  const { id } = req.params;
 
   await knex('reserved_books')
-    .where({
-      id
-    })
+    .where({ id })
     .del();
 
   res.json({ reservation });
