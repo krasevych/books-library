@@ -1,10 +1,10 @@
 import knex from '../knex';
 
-const bookProps = ['id', 'title', 'description', { isReserved: 'is_reserved' }];
+const bookProps = ['id', 'title', 'description'];
 
 const getBookData = async ({ title, authorId }) =>
   await knex('books')
-    .where({ title, author_id: authorId })
+    .where({ title, author: authorId })
     .select(...bookProps);
 
 export const get = async (req, res, next) => {
@@ -20,7 +20,7 @@ export const post = async (req, res, next) => {
   await knex('books').insert({
     title,
     description,
-    author_id: authorId
+    author: authorId
   });
 
   const book = await getBookData({ title, authorId });
@@ -33,7 +33,7 @@ export const put = async (req, res, next) => {
   const { description } = req.body;
 
   await knex('books')
-    .where({ title, author_id: authorId })
+    .where({ title, author: authorId })
     .update({ description });
 
   const book = await getBookData({ title, authorId });
@@ -46,7 +46,7 @@ export const remove = async (req, res, next) => {
   const book = await getBookData({ title, authorId });
 
   await knex('books')
-    .where({ title, author_id: authorId })
+    .where({ title, author: authorId })
     .del();
 
   res.json(book);

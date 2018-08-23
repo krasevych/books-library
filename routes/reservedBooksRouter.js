@@ -2,12 +2,11 @@ import express from 'express';
 import controllers from '../controllers';
 
 const router = express.Router();
-const { get, put, post, remove } = controllers.books;
+const { get, post, remove } = controllers.reservedBooks;
 
 router
   .route('/')
   .get(get)
-  .put(put)
   .post(post)
   .delete(remove);
 

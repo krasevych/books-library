@@ -2,8 +2,8 @@ import express from 'express';
 import controllers from '../controllers';
 
 const router = express.Router();
-const { users } = controllers;
+const { get } = controllers.users;
 
-router.route('/').get(users.get);
+router.route('/').get(get);
 
 export default router;

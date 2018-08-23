@@ -8,23 +8,21 @@ POST http://localhost:3001/api/books
 content-type: application/json
 
 {
-   "authorId": "3",
+   "authorId": 3,
     "title":"FlyHigh 5", 
     "description":"English book"
 }
-
 
 ###
 
 PUT http://localhost:3001/api/books
 ?authorId=1
-&title=FlyHigh
+&title=FlyHigh 1
 content-type: application/json
 
 {
     "description":"English book - updated"
 }
-
 
 ###
 
@@ -32,8 +30,31 @@ DELETE http://localhost:3001/api/books
 ?authorId=3
 &title=FlyHigh 5
 
-
 ###
+
 GET http://localhost:3001/api/books
 ?authorId=3
 &title=FlyHigh 5
+
+###
+
+POST http://localhost:3001/api/reserved-books
+content-type: application/json
+
+{
+   "authorId": "1",
+    "bookId":"1", 
+    "reader":"Zorg"
+}
+
+###
+
+GET http://localhost:3001/api/reserved-books
+?authorId=1
+&bookId=1
+
+###
+
+DELETE http://localhost:3001/api/reserved-books
+?bookId=1
+&reader=Zorg
